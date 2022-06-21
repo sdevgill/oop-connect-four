@@ -27,18 +27,77 @@ class ConnectFour {
     Screen.render();
   }
 
-  // Remove this
-  static testCommand() {
-    console.log("TEST COMMAND");
-  }
-
   static checkWin(grid) {
-
-    // Return 'X' if player X wins
-    // Return 'O' if player O wins
-    // Return 'T' if the game is a tie
     // Return false if the game has not ended
+    let winner = false;
 
+    // Array to store winning combinations
+    let winningCombos = [];
+
+    // Return 'X' if player X wins (4 in a row)
+    // Return 'O' if player O wins (4 in a row)
+
+    const checkPlayerWin = (arr) => {
+      if (arr.includes('X') && arr.includes('X') && arr.includes('X') && arr.includes('X')) {
+        winner = 'X';
+      } else if (arr.includes('O') && arr.includes('O') && arr.includes('O') && arr.includes('O')) {
+        winner = 'O';
+      }
+    };
+
+    // const checkPlayerWin = (arr) => {
+    //   if (arr.includes(['X', 'X', 'X', 'X'])) {
+    //     winner = 'X';
+    //   } else if (arr.includes(['O', 'O', 'O', 'O'])) {
+    //     winner = 'O';
+    //   }
+    // };
+
+    // Return 'T' if the game is a tie
+    const checkTie = () => {
+      let blankSpaces = winningCombos.flat().filter(space => space === " ").length;
+
+      if (blankSpaces === 0 && winner === false) {
+        winner = "T";
+      }
+    };
+
+    // // Check for horizontal wins
+    grid.forEach(row => winningCombos.push(row));
+
+    // Check for vertical wins
+    for (let i = 0; i < grid[0].length; i++) {
+      let col = [];
+      grid.forEach(row => col.push(row[i]));
+      winningCombos.push(col);
+    }
+
+    // Check for diagonal wins
+    let leftToRight = [];
+    let rightToLeft = [];
+
+    for (let row = 0; row < grid.length; row++) {
+      for (let col = 0; col < grid.length; col++) {
+
+        if (row === col) {
+          leftToRight.push(grid[row][col]);
+        }
+
+        if (row + col === grid.length - 1) {
+          rightToLeft.push(grid[row][col]);
+        }
+      }
+    }
+
+    winningCombos.push(leftToRight);
+    winningCombos.push(rightToLeft);
+
+    // Check for winner
+    winningCombos.forEach(checkPlayerWin);
+
+    checkTie();
+
+    return winner;
   }
 
   static endGame(winner) {
