@@ -10,7 +10,7 @@ class Cursor {
     this.col = 0;
 
     this.gridColor = 'black';
-    this.cursorColor = 'yellow';
+    this.cursorColor = 'blue';
 
   }
 

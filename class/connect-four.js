@@ -24,6 +24,7 @@ class ConnectFour {
     Screen.addCommand('t', 'test command (remove)', ConnectFour.testCommand);
 
     this.cursor.setBackgroundColor();
+
     Screen.render();
   }
 
@@ -31,69 +32,68 @@ class ConnectFour {
     // Return false if the game has not ended
     let winner = false;
 
-    // Array to store winning combinations
-    let winningCombos = [];
+    let player = this.playerTurn;
 
-    // Return 'X' if player X wins (4 in a row)
-    // Return 'O' if player O wins (4 in a row)
-
-    const checkPlayerWin = (arr) => {
-      if (arr.includes('X') && arr.includes('X') && arr.includes('X') && arr.includes('X')) {
-        winner = 'X';
-      } else if (arr.includes('O') && arr.includes('O') && arr.includes('O') && arr.includes('O')) {
-        winner = 'O';
-      }
-    };
-
-    // const checkPlayerWin = (arr) => {
-    //   if (arr.includes(['X', 'X', 'X', 'X'])) {
-    //     winner = 'X';
-    //   } else if (arr.includes(['O', 'O', 'O', 'O'])) {
-    //     winner = 'O';
-    //   }
-    // };
+    // Switch player
+    if (player === "X") {
+      this.playerTurn = "O";
+    } else {
+      this.playerTurn = "X";
+    }
 
     // Return 'T' if the game is a tie
     const checkTie = () => {
-      let blankSpaces = winningCombos.flat().filter(space => space === " ").length;
+      let blankSpaces = grid.flat().filter(space => space === " ").length;
 
       if (blankSpaces === 0 && winner === false) {
         winner = "T";
       }
     };
 
-    // // Check for horizontal wins
-    grid.forEach(row => winningCombos.push(row));
+    // Check for wins
+    // Return 'X' if player X wins (4 in a row)
+    // Return 'O' if player O wins (4 in a row)
 
-    // Check for vertical wins
-    for (let i = 0; i < grid[0].length; i++) {
-      let col = [];
-      grid.forEach(row => col.push(row[i]));
-      winningCombos.push(col);
-    }
-
-    // Check for diagonal wins
-    let leftToRight = [];
-    let rightToLeft = [];
-
-    for (let row = 0; row < grid.length; row++) {
-      for (let col = 0; col < grid.length; col++) {
-
-        if (row === col) {
-          leftToRight.push(grid[row][col]);
+    const fourInARow = (player) => {
+      // Horizontal
+      for (let i = 0; i < grid[0].length - 3; i++) {
+        for (let j = 0; j < grid.length; j++) {
+          if (grid[j][i] === player && grid[j][i + 1] === player && grid[j][i + 2] === player && grid[j][i + 3] === player) {
+            winner = player;
+          }
         }
+      }
 
-        if (row + col === grid.length - 1) {
-          rightToLeft.push(grid[row][col]);
+      // Vertical
+      for (let i = 0; i < grid.length - 3; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+          if (grid[i][j] === player && grid[i + 1][j] === player && grid[i + 2][j] === player && grid[i + 3][j] === player) {
+            winner = player;
+          }
+        }
+      }
+
+      // Diagonal ascending
+      for (let i = 3; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length - 3; j++) {
+          if (grid[i][j] === player && grid[i - 1][j + 1] === player && grid[i - 2][j + 2] === player && grid[i - 3][j + 3] === player) {
+            winner = player;
+          }
+        }
+      }
+
+      // Diagonal descending
+      for (let i = 3; i < grid.length; i++) {
+        for (let j = 3; j < grid[0].length; j++) {
+          if (grid[i][j] === player && grid[i - 1][j - 1] === player && grid[i - 2][j - 2] === player && grid[i - 3][j - 3] === player) {
+            winner = player;
+          }
         }
       }
     }
 
-    winningCombos.push(leftToRight);
-    winningCombos.push(rightToLeft);
-
     // Check for winner
-    winningCombos.forEach(checkPlayerWin);
+    fourInARow(player);
 
     checkTie();
 
