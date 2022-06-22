@@ -20,8 +20,10 @@ class ConnectFour {
     Screen.initialize(6, 7);
     Screen.setGridlines(true);
 
-    // Replace this with real commands
-    Screen.addCommand('t', 'test command (remove)', ConnectFour.testCommand);
+    // Create commands for left/right movement and help
+    Screen.addCommand('h', 'show commands', Screen.printCommands);
+    Screen.addCommand('left', 'move left', this.cursor.left);
+    Screen.addCommand('right', 'move right', this.cursor.right);
 
     this.cursor.setBackgroundColor();
 

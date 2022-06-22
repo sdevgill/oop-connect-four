@@ -31,20 +31,6 @@ class Cursor {
     Screen.render();
   }
 
-  up = () => {
-    // Move cursor up
-    if (this.row > 0 && this.row < this.numRows) {
-      this.resetScreen(-1, 0);
-    }
-  }
-
-  down = () => {
-    // Move cursor down
-    if (this.row >= 0 && this.row < (this.numRows - 1)) {
-      this.resetScreen(1, 0);
-    }
-  }
-
   left = () => {
     // Move cursor left
     if (this.col > 0 && this.col < this.numCols) {
