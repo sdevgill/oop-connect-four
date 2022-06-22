@@ -24,6 +24,8 @@ class ConnectFour {
     Screen.addCommand('h', 'show commands', Screen.printCommands);
     Screen.addCommand('left', 'move left', this.cursor.left);
     Screen.addCommand('right', 'move right', this.cursor.right);
+    Screen.addCommand('up', 'move up', this.cursor.up);
+    Screen.addCommand('down', 'move down', this.cursor.down);
     // Create a command to place a move
     Screen.addCommand('return', 'make move', this.makeMove);
 
@@ -39,8 +41,7 @@ class ConnectFour {
     // Check if the cursor is on blank space
     if (Screen.grid[this.cursor.row][this.cursor.col] === ' ') {
       // Place the player's symbol on the given column
-      // Screen.setGrid(this.cursor.row, this.cursor.col, player);
-      Screen.setGrid[this.cursor.row][this.cursor.col] = player;
+      Screen.setGrid(this.cursor.row, this.cursor.col, player);
 
       // Check for a win
       let winner = ConnectFour.checkWin(Screen.grid);
